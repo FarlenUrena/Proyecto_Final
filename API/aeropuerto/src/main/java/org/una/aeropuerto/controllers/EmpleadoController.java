@@ -5,6 +5,8 @@
  */
 package org.una.aeropuerto.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +33,13 @@ import org.una.aeropuerto.utils.MapperUtils;
  */
 @RestController
 @RequestMapping("/empleados") 
+@Api(tags = {"Empleados"})
 public class EmpleadoController {
 
     @Autowired
     private IEmpleadoService empleadoService;
 
+    @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadoDTO.class, responseContainer = "List", tags = "Empleados")
     @GetMapping() 
     public @ResponseBody
     ResponseEntity<?> findAll() {
@@ -52,6 +56,8 @@ public class EmpleadoController {
         }
     }
 
+    
+    @ApiOperation(value = "Obtiene un empleado con el id indicado", response = EmpleadoDTO.class, tags = "Empleados")
     @GetMapping("/{id}") 
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -68,6 +74,7 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = EmpleadoDTO.class, tags = "Seguridad")
     @PutMapping("/login")
     @ResponseBody 
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
@@ -89,6 +96,8 @@ public class EmpleadoController {
 
     }
 
+    
+    @ApiOperation(value = "Obtiene un empleado con el numero de cédula indicado", response = EmpleadoDTO.class, tags = "Empleados")
     @GetMapping("/cedula/{term}") 
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
@@ -104,6 +113,7 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Obtiene una lista de todos los empleados que contengan en su nombre completo los caracteres ingresados", response = EmpleadoDTO.class, responseContainer = "List", tags = "Empleados")
     @GetMapping("/nombre/{term}") 
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
@@ -119,6 +129,7 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Crea un nuevo empleado", response = EmpleadoDTO.class, tags = "Empleados")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
@@ -132,6 +143,7 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Actualiza un empleado", response = EmpleadoDTO.class, tags = "Empleados")
     @PutMapping("/{id}") 
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Empleado empleadoModified) {
@@ -150,6 +162,7 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Elimina un empleado", response = EmpleadoDTO.class, tags = "Empleados")
     @DeleteMapping("/{id}") 
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
          try {
@@ -165,9 +178,9 @@ public class EmpleadoController {
         }
     }
 
+    @ApiOperation(value = "Elimina todos los empleados", response = EmpleadoDTO.class, tags = "Empleados")
     @DeleteMapping("/") 
     public ResponseEntity<?> deleteAll() {
- 	//TODO: Implementar este método
         try {
             Optional<List<Empleado>> result = empleadoService.findAll();
             if (result.isPresent()) {
