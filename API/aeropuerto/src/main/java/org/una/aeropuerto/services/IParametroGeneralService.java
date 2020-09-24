@@ -8,7 +8,7 @@ package org.una.aeropuerto.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.ParametroGeneral;
+import org.una.aeropuerto.entities.ParametroGeneral;
 
 /**
  *
@@ -18,4 +18,8 @@ public interface IParametroGeneralService {
     public Optional<ParametroGeneral> findById(Long id);
     public Optional<List<ParametroGeneral>> findByFechaRegistroBetween(Date startDate, Date endDate);
     public ParametroGeneral create(ParametroGeneral parametroGeneral);
+
+    public Optional<List<org.una.aeropuerto.entities.ParametroGeneral>> findAll();
+
+    public void deleteAll();
 }

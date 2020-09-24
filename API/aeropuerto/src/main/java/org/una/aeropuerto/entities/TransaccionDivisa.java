@@ -55,8 +55,6 @@ public class TransaccionDivisa implements Serializable{
     
       @Column(name = "codigoCliente", length = 50)
     private String codigoCliente;
-
-
 }
 
 

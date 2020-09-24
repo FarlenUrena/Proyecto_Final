@@ -11,15 +11,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.una.tramites.entities.ParametroGeneral;
-import org.una.tramites.repositories.IParametroGeneralRepository;
+import org.una.aeropuerto.entities.ParametroGeneral;
+import org.una.aeropuerto.repositories.IParametroGeneralRepository;
 
 /**
  *
  * @author erikg
  */
+
 @Service
-public class ParametroGeneralServiceImplementation implements org.una.tramites.services.IParametroGeneralService {
+public class ParametroGeneralServiceImplementation implements IParametroGeneralService {
     @Autowired
     private IParametroGeneralRepository parametroGeneralRepository;
     

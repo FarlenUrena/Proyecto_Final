@@ -41,6 +41,7 @@ public class TransaccionDivisaController {
      *
      * @return
      */
+    
     @GetMapping() 
     public @ResponseBody
     ResponseEntity<?> findAll() {
@@ -136,6 +137,3 @@ public class TransaccionDivisaController {
         }
     } 
 }
-
-
-

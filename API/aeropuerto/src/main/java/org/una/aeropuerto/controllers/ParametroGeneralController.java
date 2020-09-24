@@ -52,7 +52,7 @@ public class ParametroGeneralController {
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<org.una.tramites.entities.ParametroGeneral> parametroGeneralFound = parametroGeneralService.findById(id);
+            Optional<org.una.aeropuerto.entities.ParametroGeneral> parametroGeneralFound = parametroGeneralService.findById(id);
             if (parametroGeneralFound.isPresent()) {
                 ParametroGeneralDTO parametroGeneralDto = MapperUtils.DtoFromEntity(parametroGeneralFound.get(), ParametroGeneralDTO.class);
                 return new ResponseEntity<>(parametroGeneralDto, HttpStatus.OK);
@@ -81,5 +81,3 @@ public class ParametroGeneralController {
         }
     } 
 }
-
-
