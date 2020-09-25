@@ -17,6 +17,7 @@ import org.una.aeropuerto.repositories.IEmpleadoRepository;
  *
  * @author erikg
  */
+
 @Service
 public class EmpleadoServiceImplementation implements IEmpleadoService{
 
@@ -83,5 +84,8 @@ public class EmpleadoServiceImplementation implements IEmpleadoService{
         return Optional.ofNullable(empleadoRepository.findByCedulaAndPasswordEncriptado(empleado.getCedula(), empleado.getPasswordEncriptado()));
     }
 
-    
+    @Override
+    public Optional<Empleado> findByCedula(String cedula) {
+    return empleadoRepository.findByCedula(cedula);
+    }
 }
