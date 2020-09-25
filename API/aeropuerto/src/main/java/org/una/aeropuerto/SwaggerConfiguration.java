@@ -47,7 +47,6 @@ public class SwaggerConfiguration {
                 );
 
     }
-
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Aeropuerto",
