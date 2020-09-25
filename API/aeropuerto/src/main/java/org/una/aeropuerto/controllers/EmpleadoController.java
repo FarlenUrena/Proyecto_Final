@@ -41,8 +41,8 @@ public class EmpleadoController {
 
     @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadoDTO.class, responseContainer = "List", tags = "Empleados")
     @GetMapping() 
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    public ResponseEntity<?> findAll() {
         try {
             Optional<List<Empleado>> result = empleadoService.findAll();
             if (result.isPresent()) {

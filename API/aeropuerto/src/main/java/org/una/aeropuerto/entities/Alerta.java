@@ -15,7 +15,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -39,16 +42,25 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
-public class Alerta implements Serializable {
+public class Alerta implements Serializable{
+    
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alerta") 
-    private List<Alerta> alertas= new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "empleados_id")
+    private Empleado empleado;
+    
+    @ManyToOne
+    @JoinColumn(name = "areasTrabajos_id")
+    private AreaTrabajo areaTrabajo;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "imagenes_id")
+    private Imagen imagen;
     
     @Column(name = "codigo", length = 10)
     private String codigo;

@@ -5,6 +5,8 @@
  */
 package org.una.aeropuerto.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +28,17 @@ import org.una.aeropuerto.utils.MapperUtils;
  * @author erikg
  */
 @RestController
-@RequestMapping("/ParametroGeneral") 
+@RequestMapping("/parametrosGenerales") 
+@Api(tags = {"Parametros Generales"}) 
 public class ParametroGeneralController {
 
     @Autowired
     private IParametroGeneralService parametroGeneralService;
 
+    @ApiOperation(value = "Obtiene una lista de todos los parametros generales", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
     @GetMapping() 
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    public ResponseEntity<?> findAll() {
         try {
             Optional<List<ParametroGeneral>> result = parametroGeneralService.findAll();
             if (result.isPresent()) {
@@ -48,6 +52,7 @@ public class ParametroGeneralController {
         }
     }
 
+    @ApiOperation(value = "Obtiene un parametro general con el id indicado", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
     @GetMapping("/{id}") 
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -65,9 +70,9 @@ public class ParametroGeneralController {
     }
 
     
+    @ApiOperation(value = "Elimina todos los parametros generales", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
     @DeleteMapping("/") 
     public ResponseEntity<?> deleteAll() {
- 	//TODO: Implementar este método
         try {
             Optional<List<ParametroGeneral>> result = parametroGeneralService.findAll();
             if (result.isPresent()) {

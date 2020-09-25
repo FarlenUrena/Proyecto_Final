@@ -19,12 +19,6 @@ public interface ITransaccionDivisaService {
 
     public TransaccionDivisa create(TransaccionDivisa transaccionDivisas);
 
-    public Optional<TransaccionDivisa> update(TransaccionDivisa transaccionDivisasModified, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
-
     public Optional<List<TransaccionDivisa>> findAll();
     
 }

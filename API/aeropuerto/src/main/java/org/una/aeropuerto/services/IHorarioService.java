@@ -17,8 +17,6 @@ public interface IHorarioService {
 
     public Optional<Horario> findById(Long id);
 
-    public Optional<List<Horario>> findByCedulaAproximate(String term);
-
     public Horario create(Horario horario);
 
     public Optional<Horario> update(Horario horarioModified, Long id);

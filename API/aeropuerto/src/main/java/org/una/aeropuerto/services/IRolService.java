@@ -5,21 +5,26 @@
  */
 package org.una.aeropuerto.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.Alerta;
+import org.una.aeropuerto.entities.Rol;
 
 /**
  *
- * @author thony
+ * @author farle_000
  */
+public interface IRolService {
+    public Optional<List<Rol>> findAll();
 
-public interface IAlertaService {
-    public Optional<List<Alerta>> findAll();
-    public Optional<Alerta> findById(Long id);
-    public Alerta create(Alerta alerta);
-    public Optional<Alerta> update(Alerta alerta, Long id);
+    public Optional<Rol> findById(Long id);
+    
+    public Optional<Rol> findByCodigo(String codigo);
+
+    public Rol create(Rol rol);
+
+    public Optional<Rol> update(Rol rol, Long id);
+
     public void delete(Long id);
+    
     public void deleteAll();
 }

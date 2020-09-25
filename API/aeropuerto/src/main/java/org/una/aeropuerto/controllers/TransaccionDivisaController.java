@@ -5,16 +5,16 @@
  */
 package org.una.aeropuerto.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,22 +31,23 @@ import org.una.aeropuerto.utils.MapperUtils;
  */
 @RestController
 @RequestMapping("/transaccionesDivisas") 
+@Api(tags = {"Transacciones de Divisas"})
 public class TransaccionDivisaController {
 
     @Autowired
     private ITransaccionDivisaService transaccionDivisasService;
-    private Object transaccionDivisaService;
 
     /**
      *
      * @return
      */
     
+    @ApiOperation(value = "Obtiene una lista de todos los empleados", response = TransaccionDivisaDTO.class, responseContainer = "List", tags = "Transacciones de Divisas")
     @GetMapping() 
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    public ResponseEntity<?> findAll() {
         try {
-            Optional<List<TransaccionDivisa>> result = transaccionDivisaService.findAll();
+            Optional<List<TransaccionDivisa>> result = transaccionDivisasService.findAll();
             if (result.isPresent()) {
                 List<TransaccionDivisaDTO> transaccionDivisassDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDivisaDTO.class);
                 return new ResponseEntity<>(transaccionDivisassDTO, HttpStatus.OK);
@@ -58,6 +59,7 @@ public class TransaccionDivisaController {
         }
     }
 
+    @ApiOperation(value = "Obtiene un Transaccion de divisas con el id indicado", response = TransaccionDivisaDTO.class, tags = "Transacciones de Divisas")
     @GetMapping("/{id}") 
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -75,6 +77,7 @@ public class TransaccionDivisaController {
     }
 
 
+    @ApiOperation(value = "Crea una nueva Transaccion de divisas", response = TransaccionDivisaDTO.class, tags = "Transacciones de Divisas")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
@@ -88,52 +91,4 @@ public class TransaccionDivisaController {
         }
     }
 
-    @PutMapping("/{id}") 
-    @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TransaccionDivisa transaccionDivisasModified) {
-        try {
-            Optional<TransaccionDivisa> transaccionDivisasUpdated = transaccionDivisasService.update(transaccionDivisasModified, id);
-            if (transaccionDivisasUpdated.isPresent()) {
-                TransaccionDivisaDTO transaccionDivisasDto = MapperUtils.DtoFromEntity(transaccionDivisasUpdated.get(), TransaccionDivisaDTO.class);
-                return new ResponseEntity<>(transaccionDivisasDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/{id}") 
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-         try {
-            Optional<TransaccionDivisa> transaccionDivisasFound = transaccionDivisasService.findById(id);
-            if (transaccionDivisasFound.isPresent()) {
-                transaccionDivisasService.delete(id);
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/") 
-    public ResponseEntity<?> deleteAll() {
- 	//TODO: Implementar este método
-        try {
-            Optional<List<TransaccionDivisa>> result = transaccionDivisasService.findAll();
-            if (result.isPresent()) {
-                transaccionDivisasService.deleteAll();
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    } 
 }

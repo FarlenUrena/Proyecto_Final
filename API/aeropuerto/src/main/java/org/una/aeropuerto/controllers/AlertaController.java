@@ -37,13 +37,12 @@ import org.una.aeropuerto.dto.AlertaDTO;
 @RestController
 @RequestMapping("/alertas") 
 @Api(tags = {"Alertas"})
-
 public class AlertaController {
     @Autowired
     private IAlertaService alertaService;
     
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene una alerta a partir del id ingresado", response = AlertaDTO.class, responseContainer = "AlertaDto", tags = "Alertas")
+    @ApiOperation(value = "Obtiene una alerta a partir del id ingresado", response = AlertaDTO.class, responseContainer = "List", tags = "Alertas")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -58,41 +57,6 @@ public class AlertaController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @GetMapping("/{estado}")
-    @ApiOperation(value = "Obtiene una lista de alertas segun el estado ingresado", response = AlertaDTO.class, responseContainer = "AlertaDto", tags = "Alertas")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
-        try {
-
-            Optional<List<Alerta>> result = alertaService.findByEstado(estado);
-            if (result.isPresent()) {
-                List<AlertaDTO> alertasDTO = MapperUtils.DtoListFromEntityList(result.get(), AlertaDTO.class);
-                return new ResponseEntity<>(alertasDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @GetMapping("/{fecha}")
-    @ApiOperation(value = "Obtiene una lista de alertas según el rango de fechas ingresado", response = AlertaDTO.class, responseContainer = "AlertaDto", tags = "Alertas")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha_registro") Date startDate,@PathVariable(value = "fecha_registro") Date endDate) {
-        try {
-
-            Optional<List<Alerta>> result = alertaService.findByFechaRegistroBetween(startDate, endDate);
-            if (result.isPresent()) {
-                List<AlertaDTO> alertasDTO = MapperUtils.DtoListFromEntityList(result.get(), AlertaDTO.class);
-                return new ResponseEntity<>(alertasDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
     
     @ApiOperation(value = "Crea una nueva alerta con la información suministrada", response = AlertaDTO.class, tags = "Alertas") 
     @ResponseStatus(HttpStatus.OK)
@@ -110,7 +74,7 @@ public class AlertaController {
     
     
                  
-    @ApiOperation(value = "Actualiza una alerta si su id coincide con el igresado y lo actualiza con de la información suministrada", response = AlertaDTO.class,  tags = "Alertas") 
+    @ApiOperation(value = "Actualiza una alerta", response = AlertaDTO.class,  tags = "Alertas") 
     @PutMapping("/{id}") 
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Alerta alertaModified) {
@@ -129,7 +93,7 @@ public class AlertaController {
         }
     }
         
-    @ApiOperation(value = "Elimina una alerta si su id coincide con el ingresado", response = AlertaDTO.class,  tags = "Alertas") 
+    @ApiOperation(value = "Elimina una alerta", response = AlertaDTO.class,  tags = "Alertas") 
     @DeleteMapping("/{id}") 
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {

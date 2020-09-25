@@ -20,27 +20,14 @@ import org.una.aeropuerto.repositories.IAlertaRepository;
  */
 
 @Service
-public class AlertaServiceImplementation implements IAlertaService {
+public class AlertaServiceImplementation implements IAlertaService{
     @Autowired
     private IAlertaRepository alertaRepository;
     
     @Override
     @Transactional(readOnly = true)
-    
     public Optional<Alerta> findById(Long id) {
         return alertaRepository.findById(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Alerta>> findByEstado(boolean estado) {
-        return alertaRepository.findByEstado(estado);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Alerta>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        return alertaRepository.findByFechaRegistroBetween(startDate, endDate);
     }
 
     @Override
@@ -77,8 +64,5 @@ public class AlertaServiceImplementation implements IAlertaService {
         return Optional.ofNullable(alertaRepository.findAll());
     }
 
-    @Override
-    public Optional<Alerta> findByCodigo(String codigo) {
-        return alertaRepository.findByCodigo(codigo);
-    }
+   
 }

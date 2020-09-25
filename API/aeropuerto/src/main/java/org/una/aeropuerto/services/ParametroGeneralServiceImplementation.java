@@ -5,7 +5,6 @@
  */
 package org.una.aeropuerto.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +30,22 @@ public class ParametroGeneralServiceImplementation implements IParametroGeneralS
     }
     
 
+
     @Override
-    public Optional<List<ParametroGeneral>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional
+    public ParametroGeneral create(ParametroGeneral parametroGeneral) {
+    return parametroGeneralRepository.save(parametroGeneral);
     }
 
     @Override
-    public ParametroGeneral create(ParametroGeneral parametroGeneral) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional(readOnly = true)
+    public Optional<List<ParametroGeneral>> findAll() {
+    return Optional.ofNullable(parametroGeneralRepository.findAll());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll() {
+    parametroGeneralRepository.deleteAll();
     }
 }

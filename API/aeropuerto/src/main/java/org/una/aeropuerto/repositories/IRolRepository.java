@@ -5,13 +5,14 @@
  */
 package org.una.aeropuerto.repositories;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.una.aeropuerto.entities.TransaccionDivisa;
+import org.una.aeropuerto.entities.Rol;
 
 /**
  *
- * @author erikg
+ * @author farle_000
  */
-public interface ITransaccionDivisaRepository extends JpaRepository<TransaccionDivisa , Long>{
-    
+public interface IRolRepository extends JpaRepository<Rol, Long>{
+    public Rol findByCodigo(String codigo);
 }

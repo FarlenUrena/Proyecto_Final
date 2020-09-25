@@ -5,7 +5,6 @@
  */
 package org.una.aeropuerto.controllers;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
@@ -18,36 +17,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.una.aeropuerto.dto.HorarioDTO;
-import org.una.aeropuerto.entities.Horario;
-import org.una.aeropuerto.services.IHorarioService;
+import org.una.aeropuerto.dto.RolDTO;
+import org.una.aeropuerto.entities.Rol;
+import org.una.aeropuerto.services.IRolService;
 import org.una.aeropuerto.utils.MapperUtils;
 
 /**
  *
- * @author erikg
+ * @author farle_000
  */
-@RestController
-@RequestMapping("/horarios") 
-@Api(tags = {"Horarios"})
-public class HorarioController {
+public class RolController {
+
 
     @Autowired
-    private IHorarioService horarioService;
+    private IRolService rolService;
 
-    @ApiOperation(value = "Obtiene una lista de todos los horarios", response = HorarioDTO.class, responseContainer = "List", tags = "Horarios")
+    @ApiOperation(value = "Obtiene una lista de todos los roles", response = RolDTO.class, responseContainer = "List", tags = "Roles")
     @GetMapping() 
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    public ResponseEntity<?> findAll() {
         try {
-            Optional<List<Horario>> result = horarioService.findAll();
+            Optional<List<Rol>> result = rolService.findAll();
             if (result.isPresent()) {
-                List<HorarioDTO> horariosDTO = MapperUtils.DtoListFromEntityList(result.get(), HorarioDTO.class);
-                return new ResponseEntity<>(horariosDTO, HttpStatus.OK);
+                List<RolDTO> rolDTO = MapperUtils.DtoListFromEntityList(result.get(), RolDTO.class);
+                return new ResponseEntity<>(rolDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -55,15 +50,15 @@ public class HorarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @ApiOperation(value = "Obtiene un horario con el id indicado", response = HorarioDTO.class, tags = "Horarios")
+@ApiOperation(value = "Obtiene un rol con el id indicado", response = RolDTO.class, tags = "Roles")
     @GetMapping("/{id}") 
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Horario> horarioFound = horarioService.findById(id);
-            if (horarioFound.isPresent()) {
-                HorarioDTO horarioDto = MapperUtils.DtoFromEntity(horarioFound.get(), HorarioDTO.class);
-                return new ResponseEntity<>(horarioDto, HttpStatus.OK);
+            Optional<Rol> rolFound = rolService.findById(id);
+            if (rolFound.isPresent()) {
+                RolDTO rolDto = MapperUtils.DtoFromEntity(rolFound.get(), RolDTO.class);
+                return new ResponseEntity<>(rolDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -71,31 +66,47 @@ public class HorarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     
-    @ApiOperation(value = "Crea un nuevo horario", response = HorarioDTO.class, tags = "Horarios")
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
-    @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Horario horario) {
+    @ApiOperation(value = "Obtiene un rol con el codigo indicado", response = RolDTO.class, tags = "Rol")
+    @GetMapping("/{codigo}") 
+    public ResponseEntity<?> findByCodigo(@PathVariable(value = "codigo") String codigo) {
         try {
-            Horario horarioCreated = horarioService.create(horario);
-            HorarioDTO horarioDto = MapperUtils.DtoFromEntity(horarioCreated, HorarioDTO.class);
-            return new ResponseEntity<>(horarioDto, HttpStatus.CREATED);
+
+                Optional<Rol> rolFound = rolService.findByCodigo(codigo);
+            if (rolFound.isPresent()) {
+                RolDTO rolDto = MapperUtils.DtoFromEntity(rolFound.get(), RolDTO.class);
+                return new ResponseEntity<>(rolDto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @ApiOperation(value = "Actualiza un empleado", response = HorarioDTO.class, tags = "Horarios")
+    
+    @ApiOperation(value = "Crea un nuevo rol", response = RolDTO.class, tags = "Roles")
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/") 
+    @ResponseBody
+    public ResponseEntity<?> create(@RequestBody Rol rol) {
+        try {
+            Rol rolCreated = rolService.create(rol);
+            RolDTO rolDto = MapperUtils.DtoFromEntity(rolCreated, RolDTO.class);
+            return new ResponseEntity<>(rolDto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @ApiOperation(value = "Actualiza un rol", response = RolDTO.class, tags = "Roles")
     @PutMapping("/{id}") 
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Horario horarioModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Rol rolModified) {
         try {
-            Optional<Horario> horarioUpdated = horarioService.update(horarioModified, id);
-            if (horarioUpdated.isPresent()) {
-                HorarioDTO horarioDto = MapperUtils.DtoFromEntity(horarioUpdated.get(), HorarioDTO.class);
-                return new ResponseEntity<>(horarioDto, HttpStatus.OK);
+            Optional<Rol> rolUpdated = rolService.update(rolModified, id);
+            if (rolUpdated.isPresent()) {
+                RolDTO rolDto = MapperUtils.DtoFromEntity(rolUpdated.get(), RolDTO.class);
+                return new ResponseEntity<>(rolDto, HttpStatus.OK);
 
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -105,15 +116,13 @@ public class HorarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    
-    @ApiOperation(value = "Elimina un empleado", response = HorarioDTO.class, tags = "Horarios")
+    @ApiOperation(value = "Elimina un rol", response = RolDTO.class, tags = "Roles")
     @DeleteMapping("/{id}") 
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
          try {
-            Optional<Horario> horarioFound = horarioService.findById(id);
-            if (horarioFound.isPresent()) {
-                horarioService.delete(id);
+            Optional<Rol> rolFound = rolService.findById(id);
+            if (rolFound.isPresent()) {
+                rolService.delete(id);
                 return new ResponseEntity<>(null, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -122,13 +131,14 @@ public class HorarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @ApiOperation(value = "Elimina todos los horarios", response = HorarioDTO.class, tags = "Horarios")
+
+    @ApiOperation(value = "Elimina todos los roles", response = RolDTO.class, tags = "Roles")
     @DeleteMapping("/") 
     public ResponseEntity<?> deleteAll() {
         try {
-            Optional<List<Horario>> result = horarioService.findAll();
+            Optional<List<Rol>> result = rolService.findAll();
             if (result.isPresent()) {
-                horarioService.deleteAll();
+                rolService.deleteAll();
                 return new ResponseEntity<>(null, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -138,6 +148,3 @@ public class HorarioController {
         }
     } 
 }
-
-
-

@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.List;
 import java.util.Optional;
 import org.una.aeropuerto.entities.Imagen;
 
@@ -14,6 +15,8 @@ import org.una.aeropuerto.entities.Imagen;
  */
 
 public interface IImagenService {
+    public Optional<List<Imagen>> findAll();
     public Optional<Imagen> findById(Long id);
-    // public Optional<List<Imagen>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
+    public Imagen create(Imagen empleado);
+    
 }

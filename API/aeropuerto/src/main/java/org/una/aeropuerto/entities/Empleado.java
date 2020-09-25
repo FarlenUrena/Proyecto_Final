@@ -6,12 +6,18 @@
 package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -68,14 +74,20 @@ public class Empleado implements Serializable{
     @Column(name = "es_usuario")
     private boolean esUsuario;
     
-    @Column(name = "rol_id")
-    private Long RolId; 
+     @ManyToOne
+    @JoinColumn(name = "roles_id")
+    private Rol rol; 
     
-    @Column(name = "area_trabajo_id")
-    private Long AreaTrabajoId;
+    @ManyToOne
+    @JoinColumn(name = "areasTrabajos_id")
+    private AreaTrabajo areaTrabajo;
     
-    @Column(name = "horario_id")
-    private Long HorarioId;
+    @ManyToOne
+    @JoinColumn(name = "horarios_id")
+    private Horario horario;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado") 
+    private List<Alerta> alertas= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 
