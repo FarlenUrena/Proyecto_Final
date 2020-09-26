@@ -65,5 +65,12 @@ public class RolServiceImplementation implements IRolService {
     public Optional<Rol> findByCodigo(String codigo) {
     return Optional.ofNullable(rolRepository.findByCodigo(codigo));
     }
+
+    @Override
+    public Long countByEstado(boolean estado) {
+        
+    return rolRepository.countByEstado(true);
+    
+    }
     
 }

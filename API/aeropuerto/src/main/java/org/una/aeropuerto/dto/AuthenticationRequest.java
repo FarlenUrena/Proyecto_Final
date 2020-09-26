@@ -9,20 +9,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 /**
  *
  * @author farle_000
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
 @ToString
-public class RolDTO {
-   private Long id; 
-    private String nombre;   
-    private String codigo; 
-    private String descripcion;
-    private boolean estado;
- 
+public class AuthenticationRequest {
+
+    private String cedula;
+    private String password;
+
 }
+

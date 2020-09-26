@@ -13,6 +13,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.una.aeropuerto.entities.Empleado;
 import org.una.aeropuerto.entities.Rol;
+import org.una.aeropuerto.loaders.Roles;
 import org.una.aeropuerto.services.IEmpleadoService;
 import org.una.aeropuerto.services.IRolService;
 
@@ -40,34 +41,54 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-        if (empleadoService.findByCedula(cedula).isEmpty()) {
-
-            Rol rol;
-            final String codigo = "ADMIN"; 
-            Optional<Rol> rolBuscado = rolService.findByCodigo(codigo);
-
-            if (rolBuscado.isEmpty()) { 
-                rol = new Rol();
-                rol.setCodigo(codigo);
-                rol.setDescripcion("Registrar usuario nuevo");
-                rolService.create(rol);
-
-            } else {
-                rol = rolBuscado.get();
-            }
-            
-            Empleado empleado = new Empleado();
-            empleado.setNombreCompleto("Usuario Admin");
-            empleado.setCedula(cedula);
-            empleado.setPasswordEncriptado(password);
-            empleado.setRol(rol);
-            empleadoService.create(empleado);
-
-            
-
-            System.out.println("Se agrega el usuario inicial");
-        } else {
-            System.out.println("Se encontro el admin");
-        }
-    }
+         if (rolService.countByEstado(true) <= 0) { 
+            createRoles(); 
+ 
+        } 
+        if (empleadoService.findByCedula(cedula).isEmpty()) { 
+            createAdmin(getRolAdmin()); 
+            System.out.println("Se agrega el usuario inicial"); 
+ 
+        } else { 
+            System.out.println("Se encontro el admin"); 
+ 
+        } 
+ 
+    } 
+ 
+    private void createRoles() { 
+        for (Roles rol : Roles.values()) { 
+            Rol nuevoRol = new Rol(); 
+            nuevoRol.setCodigo(rol.getCodigo()); 
+            nuevoRol.setDescripcion(rol.name()); 
+            rolService.create(nuevoRol); 
+        }  
+    } 
+ 
+    private Rol getRolAdmin() { 
+ 
+        Rol crearAdmin; 
+        final String codigoRol = "ADMIN"; 
+        Optional<Rol> rolBuscado = rolService.findByCodigo(codigoRol); 
+ 
+        if (rolBuscado.isPresent()) { 
+            crearAdmin = rolBuscado.get(); 
+        } else { 
+            crearAdmin = new Rol(); 
+            crearAdmin.setCodigo(codigoRol); 
+            crearAdmin.setDescripcion("Rol de administrador"); 
+            crearAdmin = rolService.create(crearAdmin); 
+        } 
+        return crearAdmin; 
+    } 
+ 
+    private void createAdmin(Rol rolAdmin) { 
+        Empleado empleado = new Empleado(); 
+        empleado.setNombreCompleto("Usuario Admin"); 
+        empleado.setCedula(cedula); 
+        empleado.setPasswordEncriptado(password); 
+        empleado.setRol(rolAdmin);
+        empleado = empleadoService.create(empleado); 
+        
+    } 
 }

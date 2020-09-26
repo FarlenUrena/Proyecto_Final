@@ -5,11 +5,21 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.AuthenticationRequest;
 import org.una.aeropuerto.entities.Empleado;
 import org.una.aeropuerto.repositories.IEmpleadoRepository;
 
@@ -19,10 +29,20 @@ import org.una.aeropuerto.repositories.IEmpleadoRepository;
  */
 
 @Service
-public class EmpleadoServiceImplementation implements IEmpleadoService{
+public class EmpleadoServiceImplementation implements UserDetailsService, IEmpleadoService{
 
     @Autowired
     private IEmpleadoRepository empleadoRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private void encriptarPassword(Empleado empleado) {
+        String password = empleado.getPasswordEncriptado();
+        if (!password.isBlank()) {
+            empleado.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
+        }
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -51,6 +71,7 @@ public class EmpleadoServiceImplementation implements IEmpleadoService{
     @Override
     @Transactional
     public Empleado create(Empleado empleado) {
+        encriptarPassword(empleado);
         return empleadoRepository.save(empleado);
     }
 
@@ -78,14 +99,27 @@ public class EmpleadoServiceImplementation implements IEmpleadoService{
         empleadoRepository.deleteAll();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Empleado> login(Empleado empleado) {
-        return Optional.ofNullable(empleadoRepository.findByCedulaAndPasswordEncriptado(empleado.getCedula(), empleado.getPasswordEncriptado()));
-    }
+   
 
     @Override
     public Optional<Empleado> findByCedula(String cedula) {
     return empleadoRepository.findByCedula(cedula);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<Empleado> empleadoBuscado = empleadoRepository.findByCedula(username);
+        if (empleadoBuscado.isPresent()) {
+            Empleado empleado = empleadoBuscado.get();
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("ADMIN"));
+            UserDetails userDetails = new User(empleado.getCedula(), empleado.getPasswordEncriptado(), roles);
+            return userDetails;
+        } else {
+            return null;
+        }
+
+
+    }
+
 }

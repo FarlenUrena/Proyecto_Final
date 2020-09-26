@@ -7,6 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.aeropuerto.dto.AuthenticationRequest;
 import org.una.aeropuerto.entities.Empleado;
 
 /**
@@ -22,6 +23,5 @@ public interface IEmpleadoService {
     public Optional<Empleado> update(Empleado empleado, Long id);
     public void delete(Long id);
     public void deleteAll();
-    public Optional<Empleado> login(Empleado empleado); 
     public Optional<Empleado> findByCedula(String cedula);
 }

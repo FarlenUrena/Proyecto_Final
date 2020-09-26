@@ -37,6 +37,8 @@ import lombok.ToString;
 @ToString
 public class Rol implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol") 
     private List<Empleado> empleados= new ArrayList<>();
     
@@ -52,5 +54,13 @@ public class Rol implements Serializable{
     
      @Column(name = "descripcion")
     private String descripcion;
-    
+     
+     @Column
+    private boolean estado;
+     
+     @PrePersist
+    public void prePersist() {
+        estado=true;
+    }
+     
 }

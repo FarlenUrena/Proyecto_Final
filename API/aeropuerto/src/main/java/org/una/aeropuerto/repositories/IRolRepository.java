@@ -15,4 +15,5 @@ import org.una.aeropuerto.entities.Rol;
  */
 public interface IRolRepository extends JpaRepository<Rol, Long>{
     public Rol findByCodigo(String codigo);
+    public Long countByEstado(boolean estado);
 }

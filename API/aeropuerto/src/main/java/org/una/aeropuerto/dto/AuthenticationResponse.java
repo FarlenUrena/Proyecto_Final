@@ -5,24 +5,23 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
+import org.una.aeropuerto.entities.Rol;
 /**
  *
  * @author farle_000
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
 @ToString
-public class RolDTO {
-   private Long id; 
-    private String nombre;   
-    private String codigo; 
-    private String descripcion;
-    private boolean estado;
- 
+public class AuthenticationResponse {
+    private String jwt;
+    private EmpleadoDTO empleado;
+    private List<Rol> roles;
+
 }

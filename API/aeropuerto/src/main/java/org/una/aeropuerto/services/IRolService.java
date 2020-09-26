@@ -27,4 +27,7 @@ public interface IRolService {
     public void delete(Long id);
     
     public void deleteAll();
+    
+    public Long countByEstado(boolean estado);
+    
 }

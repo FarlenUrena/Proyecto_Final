@@ -9,9 +9,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.una.aeropuerto.dto.AuthenticationRequest;
+import org.una.aeropuerto.dto.AuthenticationResponse;
 import org.una.aeropuerto.dto.EmpleadoDTO;
 import org.una.aeropuerto.entities.Empleado;
 import org.una.aeropuerto.services.IEmpleadoService;
@@ -73,30 +77,7 @@ public class EmpleadoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = EmpleadoDTO.class, tags = "Seguridad")
-    @PutMapping("/login")
-    @ResponseBody 
-    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-        try {
-            Empleado empleado = new Empleado();
-            empleado.setCedula(cedula);
-            empleado.setPasswordEncriptado(password);
-            Optional<Empleado> empleadoFound = empleadoService.login(empleado);
-            if (empleadoFound.isPresent()) {
-                EmpleadoDTO empleadoDto = MapperUtils.DtoFromEntity(empleadoFound.get(), EmpleadoDTO.class);
-                return new ResponseEntity<>(empleadoDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    
+  
     @ApiOperation(value = "Obtiene un empleado con el numero de cédula indicado", response = EmpleadoDTO.class, tags = "Empleados")
     @GetMapping("/cedula/{term}") 
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
