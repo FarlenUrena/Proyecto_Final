@@ -19,9 +19,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.una.aeropuerto.dto.AuthenticationRequest;
+import org.una.aeropuerto.dto.EmpleadoDTO;
 import org.una.aeropuerto.entities.Empleado;
+import org.una.aeropuerto.utils.MapperUtils;
 import org.una.aeropuerto.repositories.IEmpleadoRepository;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -29,7 +31,7 @@ import org.una.aeropuerto.repositories.IEmpleadoRepository;
  */
 
 @Service
-public class EmpleadoServiceImplementation implements UserDetailsService, IEmpleadoService{
+public class EmpleadoServiceImplementation implements IEmpleadoService,UserDetailsService{
 
     @Autowired
     private IEmpleadoRepository empleadoRepository;
@@ -37,17 +39,19 @@ public class EmpleadoServiceImplementation implements UserDetailsService, IEmple
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private void encriptarPassword(Empleado empleado) {
-        String password = empleado.getPasswordEncriptado();
+    private EmpleadoDTO encriptarPassword(EmpleadoDTO empleado) {
+       String password = empleado.getPasswordEncriptado();
         if (!password.isBlank()) {
             empleado.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }
+        return empleado;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Empleado>> findAll() {
-        return Optional.ofNullable(empleadoRepository.findAll());
+    
+    public Optional<List<EmpleadoDTO>> findAll() {
+        return ServiceConvertionHelper.findList(empleadoRepository.findAll(), EmpleadoDTO.class);
     }
 
     @Override
@@ -70,9 +74,11 @@ public class EmpleadoServiceImplementation implements UserDetailsService, IEmple
 
     @Override
     @Transactional
-    public Empleado create(Empleado empleado) {
-        encriptarPassword(empleado);
-        return empleadoRepository.save(empleado);
+    public EmpleadoDTO create(EmpleadoDTO empleado) {
+        empleado = encriptarPassword(empleado);
+        Empleado user = MapperUtils.EntityFromDto(empleado, Empleado.class);
+        user = empleadoRepository.save(user);
+        return MapperUtils.DtoFromEntity(user, EmpleadoDTO.class);
     }
 
     @Override
@@ -102,13 +108,14 @@ public class EmpleadoServiceImplementation implements UserDetailsService, IEmple
    
 
     @Override
-    public Optional<Empleado> findByCedula(String cedula) {
-    return empleadoRepository.findByCedula(cedula);
+    @Transactional(readOnly = true)
+    public Optional<EmpleadoDTO> findByCedula(String cedula) {
+    return ServiceConvertionHelper.oneToOptionalDto(Optional.ofNullable(empleadoRepository.findByCedula(cedula)), EmpleadoDTO.class);
     }
 
-    @Override
+     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<Empleado> empleadoBuscado = empleadoRepository.findByCedula(username);
+    Optional<Empleado> empleadoBuscado = Optional.ofNullable(empleadoRepository.findByCedula(username));
         if (empleadoBuscado.isPresent()) {
             Empleado empleado = empleadoBuscado.get();
             List<GrantedAuthority> roles = new ArrayList<>();

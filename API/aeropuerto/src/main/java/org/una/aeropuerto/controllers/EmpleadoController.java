@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,25 +46,19 @@ public class EmpleadoController {
     private IEmpleadoService empleadoService;
 
     @ApiOperation(value = "Obtiene una lista de todos los empleados", response = EmpleadoDTO.class, responseContainer = "List", tags = "Empleados")
-    @GetMapping() 
-    @ResponseBody
+    @GetMapping("/") 
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> findAll() {
         try {
-            Optional<List<Empleado>> result = empleadoService.findAll();
-            if (result.isPresent()) {
-                List<EmpleadoDTO> empleadosDTO = MapperUtils.DtoListFromEntityList(result.get(), EmpleadoDTO.class);
-                return new ResponseEntity<>(empleadosDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(empleadoService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     
     @ApiOperation(value = "Obtiene un empleado con el id indicado", response = EmpleadoDTO.class, tags = "Empleados")
-    @GetMapping("/{id}") 
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -114,11 +110,9 @@ public class EmpleadoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Empleado empleado) {
+    public ResponseEntity<?> create(@RequestBody EmpleadoDTO empleado) {
         try {
-            Empleado empleadoCreated = empleadoService.create(empleado);
-            EmpleadoDTO empleadoDto = MapperUtils.DtoFromEntity(empleadoCreated, EmpleadoDTO.class);
-            return new ResponseEntity<>(empleadoDto, HttpStatus.CREATED);
+            return new ResponseEntity(empleadoService.create(empleado), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -159,21 +153,21 @@ public class EmpleadoController {
         }
     }
 
-    @ApiOperation(value = "Elimina todos los empleados", response = EmpleadoDTO.class, tags = "Empleados")
-    @DeleteMapping("/") 
-    public ResponseEntity<?> deleteAll() {
-        try {
-            Optional<List<Empleado>> result = empleadoService.findAll();
-            if (result.isPresent()) {
-                empleadoService.deleteAll();
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    } 
+//    @ApiOperation(value = "Elimina todos los empleados", response = EmpleadoDTO.class, tags = "Empleados")
+//    @DeleteMapping("/") 
+//    public ResponseEntity<?> deleteAll() {
+//        try {
+//            Optional<List<Empleado>> result = empleadoService.findAll();
+//            if (result.isPresent()) {
+//                empleadoService.deleteAll();
+//                return new ResponseEntity<>(null, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    } 
 }
 
 

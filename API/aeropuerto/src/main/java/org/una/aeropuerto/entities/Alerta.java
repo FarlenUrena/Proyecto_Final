@@ -58,9 +58,8 @@ public class Alerta implements Serializable{
     @JoinColumn(name = "areasTrabajos_id")
     private AreaTrabajo areaTrabajo;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "imagenes_id")
-    private Imagen imagen;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alerta") 
+    private List<Imagen> imagenes= new ArrayList<>();
     
     @Column(name = "codigo", length = 10)
     private String codigo;

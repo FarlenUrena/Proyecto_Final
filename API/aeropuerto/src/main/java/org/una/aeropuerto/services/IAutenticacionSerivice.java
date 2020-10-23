@@ -5,8 +5,10 @@
  */
 package org.una.aeropuerto.services;
 
+import java.util.Optional;
 import org.una.aeropuerto.dto.AuthenticationRequest;
 import org.una.aeropuerto.dto.AuthenticationResponse;
+import org.una.aeropuerto.entities.Empleado;
 
 /**
  *
@@ -15,4 +17,5 @@ import org.una.aeropuerto.dto.AuthenticationResponse;
 
 public interface IAutenticacionSerivice {
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest);
+    public Optional<Empleado> findByCedula(String cedula);
 }

@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -64,7 +66,7 @@ public class Empleado implements Serializable{
     private Date fechaRegistro;
 
     @Column(name = "fecha_modificacion")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
     
@@ -72,11 +74,7 @@ public class Empleado implements Serializable{
     private boolean esJefe;
     
     @Column(name = "es_usuario")
-    private boolean esUsuario;
-    
-     @ManyToOne
-    @JoinColumn(name = "roles_id")
-    private Rol rol; 
+    private boolean esUsuario; 
     
     @ManyToOne
     @JoinColumn(name = "areasTrabajos_id")
@@ -85,6 +83,10 @@ public class Empleado implements Serializable{
     @ManyToOne
     @JoinColumn(name = "horarios_id")
     private Horario horario;
+    
+    @ManyToOne
+    @JoinColumn(name = "roles_id")
+    private Rol rol;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado") 
     private List<Alerta> alertas= new ArrayList<>();

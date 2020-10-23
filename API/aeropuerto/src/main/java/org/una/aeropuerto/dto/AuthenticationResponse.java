@@ -22,6 +22,6 @@ import org.una.aeropuerto.entities.Rol;
 public class AuthenticationResponse {
     private String jwt;
     private EmpleadoDTO empleado;
-    private List<Rol> roles;
+    private RolDTO rol;
 
 }

@@ -8,6 +8,7 @@ package org.una.aeropuerto.repositories;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.una.aeropuerto.entities.Empleado;
 
@@ -20,6 +21,7 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Long> {
     public Empleado findByCedulaAndPasswordEncriptado(String cedula, String passwordEncriptado);
     public List<Empleado> findByCedulaContaining(String cedula);
     public List<Empleado> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
-    public Optional<Empleado> findByCedula(@Param("cedula")String cedula);
+     @Query("select e from Empleado e where e.cedula = :cedula")
+    public Empleado findByCedula(@Param("cedula")String cedula);
 }
 
