@@ -107,8 +107,10 @@ public class DataLoader implements ApplicationRunner {
     private void createRoles() { 
         for (Roles rol : Roles.values()) { 
             Rol nuevoRol = new Rol(); 
-            nuevoRol.setCodigo(rol.getCodigo()); 
+            nuevoRol.setCodigo(rol.getCodigo());
+            
             nuevoRol.setDescripcion(rol.name());
+            nuevoRol.setNombre(rol.name());
             rolService.create(nuevoRol); 
         }  
     } 
@@ -123,7 +125,7 @@ public class DataLoader implements ApplicationRunner {
             crearAdmin = rolBuscado.get();
         } else { 
             crearAdmin = new Rol(); 
-            crearAdmin.setCodigo(codigoRol); 
+            crearAdmin.setCodigo(codigoRol);
             crearAdmin.setDescripcion("Rol de administrador");
             crearAdmin = rolService.create(crearAdmin);
         } 

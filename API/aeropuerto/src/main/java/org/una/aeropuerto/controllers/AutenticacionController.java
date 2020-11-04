@@ -7,7 +7,6 @@ package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.AuthenticationRequest;
 import org.una.aeropuerto.dto.EmpleadoDTO;import org.una.aeropuerto.utils.MapperUtils;
 import org.una.aeropuerto.dto.AuthenticationResponse;
-import org.una.aeropuerto.dto.RolDTO;
 import org.una.aeropuerto.entities.Empleado;
 import org.una.aeropuerto.services.IAutenticacionSerivice;
 
@@ -40,7 +38,7 @@ public class AutenticacionController {
     private IAutenticacionSerivice autenticacionService;
     
         final String MENSAJE_VERIFICAR_CREDENCIALES = "Debe verificar y proporcionar credenciales correctas";
-        final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su";    
+        final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su formulario";    
         
     @PostMapping("/login")
     @ResponseBody
