@@ -16,9 +16,11 @@ import org.una.aeropuerto.entities.Alerta;
  *
  * @author thony
  */
+public interface IAlertaRepository extends JpaRepository<Alerta, Long> {
 
-public interface IAlertaRepository extends JpaRepository<Alerta, Long>{
-    public Optional<List<Alerta>> findByEstado(@Param("estado")boolean estado);
-    public Optional<List<Alerta>> findByFechaRegistroBetween(@Param("fecha_registro")Date start,@Param("fecha_registro")Date end);
-    public Optional<Alerta> findByCodigo(@Param("codigo")String codigo);
+    public Optional<List<Alerta>> findByEstado(@Param("estado") boolean estado);
+
+    public Optional<List<Alerta>> findByFechaRegistroBetween(@Param("fecha_registro") Date start, @Param("fecha_registro") Date end);
+
+    public Optional<Alerta> findByCodigo(@Param("codigo") String codigo);
 }

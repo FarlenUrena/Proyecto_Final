@@ -106,6 +106,4 @@ public class Empleado implements Serializable{
     public void preUpdate() {
         fechaModificacion = new Date();
     }
-
 }
-

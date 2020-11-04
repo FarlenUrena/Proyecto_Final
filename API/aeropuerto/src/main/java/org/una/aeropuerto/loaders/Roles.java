@@ -10,19 +10,18 @@ package org.una.aeropuerto.loaders;
  * @author farle_000
  */
 public enum Roles {
-    Administrador("ADMIN"), 
-    Gestor("GEST"), 
-    Auditor("AUD"), 
+    Administrador("ADMIN"),
+    Gestor("GEST"),
+    Auditor("AUD"),
     Gerente("GER");
-    
-    
-    private String codigo; 
- 
-    Roles(String codigo) { 
-        this.codigo = codigo; 
-    } 
- 
-    public String getCodigo() { 
-        return codigo; 
-    } 
+
+    private String codigo;
+
+    Roles(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
 }

@@ -14,5 +14,4 @@ import org.una.aeropuerto.entities.Horario;
  */
 public interface IHorarioRepository extends JpaRepository<Horario, Long> {
 
-   
 }

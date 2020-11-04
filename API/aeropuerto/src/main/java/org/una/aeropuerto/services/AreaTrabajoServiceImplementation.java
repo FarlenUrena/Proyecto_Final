@@ -10,8 +10,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.AlertaDTO;
+import org.una.aeropuerto.dto.AreaTrabajoDTO;
 import org.una.aeropuerto.entities.AreaTrabajo;
 import org.una.aeropuerto.repositories.IAreaTrabajoRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -24,51 +28,34 @@ public class AreaTrabajoServiceImplementation implements IAreaTrabajoService {
     private IAreaTrabajoRepository areaTrabajoRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<AreaTrabajo>> findAll() {
-        return Optional.ofNullable(areaTrabajoRepository.findAll());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<AreaTrabajo> findById(Long id) {
-        return areaTrabajoRepository.findById(id);
+    @Transactional
+    public AreaTrabajoDTO create(AreaTrabajoDTO areaTrabajoDto) {
+        AreaTrabajo areaTrabajo = MapperUtils.EntityFromDto(areaTrabajoDto, AreaTrabajo.class);
+        areaTrabajo = areaTrabajoRepository.save(areaTrabajo);
+        return MapperUtils.DtoFromEntity(areaTrabajo, AreaTrabajoDTO.class);
     }
 
     @Override
     @Transactional
-    public AreaTrabajo create(AreaTrabajo areaTrabajo) {
-        return areaTrabajoRepository.save(areaTrabajo);
-    }
-
-    @Override
-    @Transactional
-    public Optional<AreaTrabajo> update(AreaTrabajo areaTrabajo, Long id) {
+    public Optional<AreaTrabajoDTO> update(AreaTrabajoDTO areaTrabajoDTO, Long id) {
         if (areaTrabajoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(areaTrabajoRepository.save(areaTrabajo));
+            AreaTrabajo areaTrabajo = MapperUtils.EntityFromDto(areaTrabajoDTO, AreaTrabajo.class);
+            areaTrabajo = areaTrabajoRepository.save(areaTrabajo);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(areaTrabajo, AreaTrabajoDTO.class));
         } else {
             return null;
         }
-
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-
-        areaTrabajoRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public Optional<AreaTrabajoDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(areaTrabajoRepository.findById(id), AreaTrabajoDTO.class);
     }
 
     @Override
-    @Transactional
-    public void deleteAll() {
-        areaTrabajoRepository.deleteAll();
+    @Transactional(readOnly = true)
+    public Optional<List<AreaTrabajoDTO>> findAll() {
+        return ServiceConvertionHelper.findList(areaTrabajoRepository.findAll(), AreaTrabajoDTO.class);
     }
-
-    @Override
-    public Optional<List<AreaTrabajo>> findByEstado(boolean estado) {
-     return Optional.ofNullable(areaTrabajoRepository.findByEstado(estado));}
- 
 }
-    
-

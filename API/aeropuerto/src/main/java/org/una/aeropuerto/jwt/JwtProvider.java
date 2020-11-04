@@ -42,15 +42,12 @@ public class JwtProvider {
     }
 
     public boolean isValid(String token) {
-      try {
+        try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
-        
+
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException ex) {
             return false;
         }
-        
     }
-
 }
-

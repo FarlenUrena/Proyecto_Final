@@ -5,10 +5,9 @@
  */
 package org.una.aeropuerto.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.Alerta;
+import org.una.aeropuerto.dto.AlertaDTO;
 
 /**
  *
@@ -16,10 +15,11 @@ import org.una.aeropuerto.entities.Alerta;
  */
 
 public interface IAlertaService {
-    public Optional<List<Alerta>> findAll();
-    public Optional<Alerta> findById(Long id);
-    public Alerta create(Alerta alerta);
-    public Optional<Alerta> update(Alerta alerta, Long id);
-    public void delete(Long id);
-    public void deleteAll();
+    public Optional<List<AlertaDTO>> findAll();
+
+    public Optional<AlertaDTO> findById(Long id);
+
+    public AlertaDTO create(AlertaDTO alerta);
+
+    public Optional<AlertaDTO> update(AlertaDTO alertaDTO, Long id);
 }

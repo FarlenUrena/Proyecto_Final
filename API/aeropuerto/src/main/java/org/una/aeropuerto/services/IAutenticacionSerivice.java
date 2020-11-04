@@ -14,8 +14,9 @@ import org.una.aeropuerto.entities.Empleado;
  *
  * @author farle_000
  */
-
 public interface IAutenticacionSerivice {
+
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest);
+
     public Optional<Empleado> findByCedula(String cedula);
 }

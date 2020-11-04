@@ -8,13 +8,10 @@ package org.una.aeropuerto.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.aeropuerto.entities.ParametroGeneral;
 
-
 /**
  *
  * @author erikg
  */
-public interface IParametroGeneralRepository extends JpaRepository<ParametroGeneral, Long>{
+public interface IParametroGeneralRepository extends JpaRepository<ParametroGeneral, Long> {
 
-   
- 
 }

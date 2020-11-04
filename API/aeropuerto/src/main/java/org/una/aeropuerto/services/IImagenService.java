@@ -7,7 +7,7 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.Imagen;
+import org.una.aeropuerto.dto.ImagenDTO;
 
 /**
  *
@@ -15,8 +15,11 @@ import org.una.aeropuerto.entities.Imagen;
  */
 
 public interface IImagenService {
-    public Optional<List<Imagen>> findAll();
-    public Optional<Imagen> findById(Long id);
-    public Imagen create(Imagen empleado);
-    
+    public Optional<List<ImagenDTO>> findAll();
+
+    public Optional<ImagenDTO> findById(Long id);
+
+    public ImagenDTO create(ImagenDTO imagen);
+
+    public Optional<ImagenDTO> update(ImagenDTO imagenDTO, Long id);
 }

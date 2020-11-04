@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +24,6 @@ import lombok.ToString;
  *
  * @author thony
  */
-
 @Entity
 @Table(name = "imagenes")
 @Data
@@ -33,12 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 
-public class Imagen implements Serializable{
-    private static final long serialVersionUID = 1L;
-    
-    @ManyToOne
-    @JoinColumn(name = "alertas_id")
-    private Alerta alerta;
+public class Imagen implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +40,9 @@ public class Imagen implements Serializable{
     @Column
     private Blob imagen;
     
+    private static final long serialVersionUID = 1L;
+
+    @ManyToOne
+    @JoinColumn(name = "alertas_id")
+    private Alerta alerta;
 }

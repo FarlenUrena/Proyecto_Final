@@ -55,14 +55,14 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
-                         new Tag("Empleados", "Entidad de Empleados"),
-                         new Tag("Alertas", "Entidad de Alertas"),
-                         new Tag("Horarios", "Entidad de Horarios"),
-                         new Tag("Imagenes", "Entidad de Imagenes"),
-                         new Tag("Parametros Generales", "Entidad de Parametros Generales"),
-                         new Tag("Transacciones de Divisas", "Entidad de Transacciones de Divisas"),
-                         new Tag("Roles", "Entidad de Roles"),
-                         new Tag("Areas de Trabajos", "Entidad de Areas de Trabajos")
+                        new Tag("Empleados", "Entidad de Empleados"),
+                        new Tag("Alertas", "Entidad de Alertas"),
+                        new Tag("Horarios", "Entidad de Horarios"),
+                        new Tag("Imagenes", "Entidad de Imagenes"),
+                        new Tag("Parametros Generales", "Entidad de Parametros Generales"),
+                        new Tag("Transacciones de Divisas", "Entidad de Transacciones de Divisas"),
+                        new Tag("Roles", "Entidad de Roles"),
+                        new Tag("Areas de Trabajos", "Entidad de Areas de Trabajos")
                 );
 
     }
@@ -77,4 +77,3 @@ public class SwaggerConfiguration {
                 "Apache-2.0", "http://www.apache.org/licenses/LICENSE-2.0", Collections.emptyList());
     }
 }
-

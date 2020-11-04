@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.RolDTO;
 import org.una.aeropuerto.entities.Rol;
 import org.una.aeropuerto.repositories.IRolRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -22,55 +25,41 @@ public class RolServiceImplementation implements IRolService {
 
     @Autowired
     private IRolRepository rolRepository;
-    
+
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Rol>> findAll() {
-        return Optional.ofNullable(rolRepository.findAll());
+    @Transactional
+    public RolDTO create(RolDTO rolDto) {
+        Rol rol = MapperUtils.EntityFromDto(rolDto, Rol.class);
+        rol = rolRepository.save(rol);
+        return MapperUtils.DtoFromEntity(rol, RolDTO.class);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<Rol> findById(Long id) {
-             return rolRepository.findById(id);}
-
     @Transactional
-    @Override
-    public Rol create(Rol rol) {
-            return rolRepository.save(rol);
-    }
-
-    @Transactional
-    @Override
-    public Optional<Rol> update(Rol rol, Long id) {
-            if (rolRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(rolRepository.save(rol));
+    public Optional<RolDTO> update(RolDTO rolDTO, Long id) {
+        if (rolRepository.findById(id).isPresent()) {
+            Rol rol = MapperUtils.EntityFromDto(rolDTO, Rol.class);
+            rol = rolRepository.save(rol);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(rol, RolDTO.class));
         } else {
             return null;
         }
-}
-
-    @Override
-    public void delete(Long id) {
-    rolRepository.deleteById(id);
     }
-
-    @Override
-    public void deleteAll() {
-    rolRepository.deleteAll();
-            }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Rol> findByCodigo(String codigo) {
-    return Optional.ofNullable(rolRepository.findByCodigo(codigo));
+    public Optional<RolDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(rolRepository.findById(id), RolDTO.class);
     }
 
     @Override
-    public Long countByEstado(boolean estado) {
-        
-    return rolRepository.countByEstado(true);
-    
+    @Transactional(readOnly = true)
+    public Optional<List<RolDTO>> findAll() {
+        return ServiceConvertionHelper.findList(rolRepository.findAll(), RolDTO.class);
     }
-    
+
+    @Override
+    public Optional<Rol> findByCodigo(String codigo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

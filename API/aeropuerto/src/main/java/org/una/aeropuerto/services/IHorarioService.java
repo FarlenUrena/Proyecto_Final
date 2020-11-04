@@ -7,24 +7,20 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.Horario;
+import org.una.aeropuerto.dto.HorarioDTO;
 
 /**
  *
  * @author erikg
  */
+
 public interface IHorarioService {
 
-    public Optional<Horario> findById(Long id);
+    public Optional<List<HorarioDTO>> findAll();
 
-    public Horario create(Horario horario);
+    public Optional<HorarioDTO> findById(Long id);
 
-    public Optional<Horario> update(Horario horarioModified, Long id);
+    public HorarioDTO create(HorarioDTO horario);
 
-    public void delete(Long id);
-
-    public void deleteAll();
-
-    public Optional<List<Horario>> findAll();
-    
+    public Optional<HorarioDTO> update(HorarioDTO horarioDTO, Long id);
 }

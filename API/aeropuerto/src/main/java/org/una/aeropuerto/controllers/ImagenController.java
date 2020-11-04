@@ -6,8 +6,6 @@
 package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,15 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.una.aeropuerto.dto.ImagenDTO;
-import org.una.aeropuerto.entities.Imagen;
-import org.una.aeropuerto.services.IImagenService;
-import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.dto.HorarioDTO;
+import org.una.aeropuerto.services.IHorarioService;
 
 /**
  *
@@ -31,59 +28,55 @@ import org.una.aeropuerto.utils.MapperUtils;
  */
 @RestController
 @RequestMapping("/imagenes") 
-@Api(tags = {"Imagenes"})
+@Api(tags = {"Imágenes"})
 public class ImagenController {
     
     @Autowired
-    private IImagenService imagenService;
-      
-    @ApiOperation(value = "Obtiene una lista de todas los imagenes", response = ImagenDTO.class, responseContainer = "List", tags = "Imagenes")
-    @GetMapping() 
+    private IHorarioService horarioService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/")
     @ResponseBody
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> create(@RequestBody HorarioDTO horario) {
         try {
-            Optional<List<Imagen>> result = imagenService.findAll();
-            if (result.isPresent()) {
-                List<ImagenDTO> imagensDTO = MapperUtils.DtoListFromEntityList(result.get(), ImagenDTO.class);
-                return new ResponseEntity<>(imagensDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(horarioService.create(horario), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
-    @ApiOperation(value = "Obtiene una imágen", response = ImagenDTO.class, responseContainer = "ImagenDto", tags = "Imagenes")
+
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody HorarioDTO horarioDTO) {
+
+        try {
+            Optional<HorarioDTO> horarioUpdated = horarioService.update(horarioDTO, id);
+            if (horarioUpdated.isPresent()) {
+                return new ResponseEntity(horarioUpdated, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
+            return new ResponseEntity<>(horarioService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-            Optional<Imagen> imagenFound = imagenService.findById(id);
-            if (imagenFound.isPresent()) {
-                ImagenDTO imagenDto = MapperUtils.DtoFromEntity(imagenFound.get(), ImagenDTO.class);
-                return new ResponseEntity<>(imagenDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-        @ApiOperation(value = "Crea un nuevo imagen", response = ImagenDTO.class, tags = "Imagenes")
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
+    @GetMapping()
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Imagen imagen) {
+    public ResponseEntity<?> findAll() {
         try {
-            Imagen imagenCreated = imagenService.create(imagen);
-            ImagenDTO imagenDto = MapperUtils.DtoFromEntity(imagenCreated, ImagenDTO.class);
-            return new ResponseEntity<>(imagenDto, HttpStatus.CREATED);
+            return new ResponseEntity(horarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
 }

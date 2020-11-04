@@ -5,7 +5,6 @@
  */
 package org.una.aeropuerto.repositories;
 
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.aeropuerto.entities.Rol;
 
@@ -13,7 +12,10 @@ import org.una.aeropuerto.entities.Rol;
  *
  * @author farle_000
  */
-public interface IRolRepository extends JpaRepository<Rol, Long>{
+public interface IRolRepository extends JpaRepository<Rol, Long> {
+
     public Rol findByCodigo(String codigo);
+
     public Long countByEstado(boolean estado);
+    
 }

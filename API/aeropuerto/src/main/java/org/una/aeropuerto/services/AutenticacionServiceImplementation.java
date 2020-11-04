@@ -33,19 +33,19 @@ import org.una.aeropuerto.utils.MapperUtils;
  *
  * @author farle_000
  */
-
 @Service
-public class AutenticacionServiceImplementation implements IAutenticacionSerivice,UserDetailsService{
-    
+public class AutenticacionServiceImplementation implements IAutenticacionSerivice, UserDetailsService {
+
     @Autowired
     private IEmpleadoRepository empleadoRepository;
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Override
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
-               Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
 
@@ -58,27 +58,24 @@ public class AutenticacionServiceImplementation implements IAutenticacionSerivic
             System.out.println(authenticationResponse.getEmpleado().getRol());
             RolDTO rolesDto = MapperUtils.DtoFromEntity(empleado.get().getRol(), RolDTO.class);
             authenticationResponse.setRol(rolesDto);
-            
+
             System.out.println(authenticationResponse.getRol().getDescripcion());
             return authenticationResponse;
-            
         } else {
             return null;
         }
-
- 
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-     Optional<Empleado> empleadoBuscado = findByCedula(username);
+        Optional<Empleado> empleadoBuscado = findByCedula(username);
         if (empleadoBuscado.isPresent()) {
             Empleado empleado = empleadoBuscado.get();
             List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(empleado.getRol().getCodigo()));
-            
-            for(GrantedAuthority aut : authorities){
-                System.out.println(aut+"----------------------------------------");
+            authorities.add(new SimpleGrantedAuthority(empleado.getRol().getCodigo()));
+
+            for (GrantedAuthority aut : authorities) {
+                System.out.println(aut + "----------------------------------------");
             }
             //List<GrantedAuthority> roles = new ArrayList<>();
             //roles.add(new SimpleGrantedAuthority("ADMIN"));
@@ -88,13 +85,10 @@ public class AutenticacionServiceImplementation implements IAutenticacionSerivic
             System.out.println("loadUserByUserName: fail");
             return null;
         }
-        
-        
-    
-}
+    }
 
     @Override
     public Optional<Empleado> findByCedula(String cedula) {
-    return Optional.ofNullable(empleadoRepository.findByCedula(cedula));
+        return Optional.ofNullable(empleadoRepository.findByCedula(cedula));
     }
 }

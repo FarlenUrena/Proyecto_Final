@@ -5,12 +5,11 @@
  */
 package org.una.aeropuerto.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.aeropuerto.entities.Rol;
+
 /**
  *
  * @author farle_000
@@ -20,6 +19,7 @@ import org.una.aeropuerto.entities.Rol;
 @NoArgsConstructor
 @ToString
 public class AuthenticationResponse {
+
     private String jwt;
     private EmpleadoDTO empleado;
     private RolDTO rol;

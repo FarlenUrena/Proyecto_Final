@@ -32,10 +32,9 @@ import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 @Service
 public class EmpleadoServiceImplementation implements IEmpleadoService,UserDetailsService{
-
     @Autowired
     private IEmpleadoRepository empleadoRepository;
-
+    
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -95,7 +94,6 @@ public class EmpleadoServiceImplementation implements IEmpleadoService,UserDetai
     @Override
     @Transactional
     public void delete(Long id) {
-
         empleadoRepository.deleteById(id);
     }
 
@@ -104,16 +102,14 @@ public class EmpleadoServiceImplementation implements IEmpleadoService,UserDetai
     public void deleteAll() {
         empleadoRepository.deleteAll();
     }
-
    
-
     @Override
     @Transactional(readOnly = true)
     public Optional<EmpleadoDTO> findByCedula(String cedula) {
     return ServiceConvertionHelper.oneToOptionalDto(Optional.ofNullable(empleadoRepository.findByCedula(cedula)), EmpleadoDTO.class);
     }
 
-     @Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     Optional<Empleado> empleadoBuscado = Optional.ofNullable(empleadoRepository.findByCedula(username));
         if (empleadoBuscado.isPresent()) {
@@ -125,8 +121,5 @@ public class EmpleadoServiceImplementation implements IEmpleadoService,UserDetai
         } else {
             return null;
         }
-
-
     }
-
 }

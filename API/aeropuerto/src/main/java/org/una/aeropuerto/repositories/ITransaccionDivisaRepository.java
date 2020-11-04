@@ -12,6 +12,6 @@ import org.una.aeropuerto.entities.TransaccionDivisa;
  *
  * @author erikg
  */
-public interface ITransaccionDivisaRepository extends JpaRepository<TransaccionDivisa , Long>{
-    
+public interface ITransaccionDivisaRepository extends JpaRepository<TransaccionDivisa, Long> {
+
 }

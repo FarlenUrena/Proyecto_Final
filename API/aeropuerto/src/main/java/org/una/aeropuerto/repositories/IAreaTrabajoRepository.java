@@ -14,6 +14,7 @@ import org.una.aeropuerto.entities.AreaTrabajo;
  *
  * @author farle_000
  */
-public interface IAreaTrabajoRepository extends JpaRepository<AreaTrabajo,Long> {
-    public List<AreaTrabajo> findByEstado(@Param("estado")boolean estado);
+public interface IAreaTrabajoRepository extends JpaRepository<AreaTrabajo, Long> {
+
+    public List<AreaTrabajo> findByEstado(@Param("estado") boolean estado);
 }

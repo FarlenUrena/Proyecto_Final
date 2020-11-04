@@ -7,27 +7,19 @@ package org.una.aeropuerto.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.aeropuerto.entities.AreaTrabajo;
+import org.una.aeropuerto.dto.AreaTrabajoDTO;
 
 /**
  *
  * @author farle_000
  */
-    public interface IAreaTrabajoService {
+public interface IAreaTrabajoService {
 
-    public Optional<List<AreaTrabajo>> findAll();
+    public Optional<List<AreaTrabajoDTO>> findAll();
 
-    public Optional<AreaTrabajo> findById(Long id);
-    
-    public Optional<List<AreaTrabajo>> findByEstado(boolean estado);
+    public Optional<AreaTrabajoDTO> findById(Long id);
 
-    public AreaTrabajo create(AreaTrabajo areaTrabajo);
+    public AreaTrabajoDTO create(AreaTrabajoDTO areaTrabajo);
 
-    public Optional<AreaTrabajo> update(AreaTrabajo areaTrabajo, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
-
-
+    public Optional<AreaTrabajoDTO> update(AreaTrabajoDTO areaTrabajoDTO, Long id);
 }

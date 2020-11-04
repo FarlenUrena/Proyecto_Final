@@ -18,7 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -35,32 +34,31 @@ import lombok.ToString;
  *
  * @author thony
  */
-
 @Entity
 @Table(name = "alertas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Alerta implements Serializable{
-    
+public class Alerta implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "empleados_id")
     private Empleado empleado;
-    
+
     @ManyToOne
     @JoinColumn(name = "areasTrabajos_id")
     private AreaTrabajo areaTrabajo;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alerta") 
-    private List<Imagen> imagenes= new ArrayList<>();
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alerta")
+    private List<Imagen> imagenes = new ArrayList<>();
+
     @Column(name = "codigo", length = 10)
     private String codigo;
 
@@ -69,7 +67,7 @@ public class Alerta implements Serializable{
 
     @Column
     private boolean estado;
-    
+
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
@@ -80,10 +78,9 @@ public class Alerta implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;
 
-
     @PrePersist
     public void prePersist() {
-        estado=true;
+        estado = true;
         fechaRegistro = new Date();
         fechaModificacion = new Date();
     }

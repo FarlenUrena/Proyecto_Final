@@ -14,15 +14,15 @@ import java.util.Optional;
  * @author farle00
  */
 public class ServiceConvertionHelper {
-    
-    
-    public static<D, E> Optional<List<D>> findList(final Collection<E> list, Class<D> dtoClass){
-        if(list != null){
+
+    public static <D, E> Optional<List<D>> findList(final Collection<E> list, Class<D> dtoClass) {
+        if (list != null) {
             List<D> lista = MapperUtils.DtoListFromEntityList(list, dtoClass);
             return Optional.ofNullable(lista);
         }
         return null;
     }
+
     /*
     private Optional<List<UsuarioDTO>> findList(List<Usuario> list) {
         if (list != null) {
@@ -32,15 +32,15 @@ public class ServiceConvertionHelper {
             return null;
         }
     }*/
-    
-    public static<D, E> Optional<List<D>> findList(final Optional<Collection<E>> list, Class<D> dtoClass){
-        if(list.isPresent()){
+
+    public static <D, E> Optional<List<D>> findList(final Optional<Collection<E>> list, Class<D> dtoClass) {
+        if (list.isPresent()) {
             return findList(list.get(), dtoClass);
         }
         return null;
     }
-    
-/*
+
+    /*
     private Optional<List<UsuarioDTO>> findList(Optional<List<Usuario>> list) {
         if (list.isPresent()) {
             return findList(list.get());
@@ -48,15 +48,16 @@ public class ServiceConvertionHelper {
             return null;
         }
     }
-*/
-    public static<D, E> Optional<D> oneToOptionalDto(final Optional<E> one, Class<D> dtoClass){
-        if(one.isPresent()){
+     */
+    public static <D, E> Optional<D> oneToOptionalDto(final Optional<E> one, Class<D> dtoClass) {
+        if (one.isPresent()) {
             D oneDto = MapperUtils.DtoFromEntity(one.get(), dtoClass);
             return Optional.ofNullable(oneDto);
         }
         return null;
     }
-/*
+
+    /*
     private Optional<UsuarioDTO> oneToDto(Optional<Usuario> one) {
         if (one.isPresent()) {
             UsuarioDTO usuarioDTO = MapperUtils.DtoFromEntity(one.get(), UsuarioDTO.class);
@@ -65,9 +66,9 @@ public class ServiceConvertionHelper {
             return null;
         }
     }*/
-    
-    public static<D, E> D oneToDto(final Optional<E> one, Class<D> dtoClass){
-        if(one.isPresent()){
+
+    public static <D, E> D oneToDto(final Optional<E> one, Class<D> dtoClass) {
+        if (one.isPresent()) {
             return MapperUtils.DtoFromEntity(one.get(), dtoClass);
         }
         return null;

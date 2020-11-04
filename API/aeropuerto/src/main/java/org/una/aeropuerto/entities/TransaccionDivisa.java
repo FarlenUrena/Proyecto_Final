@@ -5,8 +5,6 @@
  */
 package org.una.aeropuerto.entities;
 
-
-
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,8 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 /**
  *
  * @author erik garcia
@@ -36,7 +32,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class TransaccionDivisa implements Serializable{
+public class TransaccionDivisa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,15 +42,13 @@ public class TransaccionDivisa implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fecha;
-    
+
     @Column(name = "monedaOrigen", length = 50)
     private String monedaOrigen;
-    
+
     @Column(name = "monedaDestino", length = 50)
     private String monedaDestino;
-    
-      @Column(name = "codigoCliente", length = 50)
+
+    @Column(name = "codigoCliente", length = 50)
     private String codigoCliente;
 }
-
-

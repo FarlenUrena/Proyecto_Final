@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.aeropuerto.dto.AuthenticationRequest;
-import org.una.aeropuerto.dto.EmpleadoDTO;import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.dto.EmpleadoDTO;
+import org.una.aeropuerto.utils.MapperUtils;
 import org.una.aeropuerto.dto.AuthenticationResponse;
 import org.una.aeropuerto.entities.Empleado;
 import org.una.aeropuerto.services.IAutenticacionSerivice;
@@ -31,15 +32,16 @@ import org.una.aeropuerto.services.IAutenticacionSerivice;
  * @author farle_000
  */
 @RestController
-@RequestMapping("/autenticacion") 
+@RequestMapping("/autenticacion")
 @Api(tags = {"Seguridad"})
 public class AutenticacionController {
+
     @Autowired
     private IAutenticacionSerivice autenticacionService;
-    
-        final String MENSAJE_VERIFICAR_CREDENCIALES = "Debe verificar y proporcionar credenciales correctas";
-        final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su formulario";    
-        
+
+    final String MENSAJE_VERIFICAR_CREDENCIALES = "Debe verificar y proporcionar credenciales correctas";
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verificar el formato y la información de su formulario";
+
     @PostMapping("/login")
     @ResponseBody
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = EmpleadoDTO.class, tags = "Seguridad")
@@ -60,11 +62,10 @@ public class AutenticacionController {
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);
             }
-        } catch(UsernameNotFoundException | BadCredentialsException ex){
+        } catch (UsernameNotFoundException | BadCredentialsException ex) {
             return new ResponseEntity(MENSAJE_VERIFICAR_CREDENCIALES, HttpStatus.BAD_REQUEST);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
-}
+    }
 }

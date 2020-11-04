@@ -10,8 +10,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.TransaccionDivisaDTO;
+import org.una.aeropuerto.entities.TransaccionDivisa;
 import org.una.aeropuerto.entities.TransaccionDivisa;
 import org.una.aeropuerto.repositories.ITransaccionDivisaRepository;
+import org.una.aeropuerto.repositories.ITransaccionDivisaRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -20,25 +25,38 @@ import org.una.aeropuerto.repositories.ITransaccionDivisaRepository;
 @Service
 public class TransaccionDivisaServiceImplementation implements ITransaccionDivisaService{
 
-     @Autowired
+    @Autowired
     private ITransaccionDivisaRepository transaccionDivisaRepository;
-     
+
     @Override
-    @Transactional(readOnly = true)
-    public Optional<TransaccionDivisa> findById(Long id) {
-        return transaccionDivisaRepository.findById(id);
+    @Transactional
+    public TransaccionDivisaDTO create(TransaccionDivisaDTO transaccionDivisaDto) {
+        TransaccionDivisa transaccionDivisa = MapperUtils.EntityFromDto(transaccionDivisaDto, TransaccionDivisa.class);
+        transaccionDivisa = transaccionDivisaRepository.save(transaccionDivisa);
+        return MapperUtils.DtoFromEntity(transaccionDivisa, TransaccionDivisaDTO.class);
     }
 
     @Override
     @Transactional
-    public TransaccionDivisa create(TransaccionDivisa transaccionDivisas) {
-    return transaccionDivisaRepository.save(transaccionDivisas);
+    public Optional<TransaccionDivisaDTO> update(TransaccionDivisaDTO transaccionDivisaDTO, Long id) {
+        if (transaccionDivisaRepository.findById(id).isPresent()) {
+            TransaccionDivisa transaccionDivisa = MapperUtils.EntityFromDto(transaccionDivisaDTO, TransaccionDivisa.class);
+            transaccionDivisa = transaccionDivisaRepository.save(transaccionDivisa);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(transaccionDivisa, TransaccionDivisaDTO.class));
+        } else {
+            return null;
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TransaccionDivisa>> findAll() {
-        return Optional.ofNullable(transaccionDivisaRepository.findAll());
+    public Optional<TransaccionDivisaDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(transaccionDivisaRepository.findById(id), TransaccionDivisaDTO.class);
     }
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<TransaccionDivisaDTO>> findAll() {
+        return ServiceConvertionHelper.findList(transaccionDivisaRepository.findAll(), TransaccionDivisaDTO.class);
+    }
 }

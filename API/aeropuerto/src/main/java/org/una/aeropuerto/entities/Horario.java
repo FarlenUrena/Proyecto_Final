@@ -69,7 +69,4 @@ public class Horario implements Serializable{
         fechaEntrada = new Date();
         fechaSalida = new Date();
     }
-
-   
 }
-

@@ -11,8 +11,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.aeropuerto.dto.ImagenDTO;
 import org.una.aeropuerto.entities.Imagen;
 import org.una.aeropuerto.repositories.IImagenRepository;
+import org.una.aeropuerto.utils.MapperUtils;
+import org.una.aeropuerto.utils.ServiceConvertionHelper;
 
 /**
  *
@@ -20,25 +23,39 @@ import org.una.aeropuerto.repositories.IImagenRepository;
  */
 @Service
 public class ImagenServiceImplementation implements IImagenService {
+    
     @Autowired
     private IImagenRepository imagenRepository;
-    
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Imagen> findById(Long id) {
-        return imagenRepository.findById(id);
-    }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Imagen>> findAll() {
-        return Optional.ofNullable(imagenRepository.findAll());
-    }
-
-        @Override
     @Transactional
-    public Imagen create(Imagen imagen) {
-        return imagenRepository.save(imagen);
+    public ImagenDTO create(ImagenDTO imagenDto) {
+        Imagen imagen = MapperUtils.EntityFromDto(imagenDto, Imagen.class);
+        imagen = imagenRepository.save(imagen);
+        return MapperUtils.DtoFromEntity(imagen, ImagenDTO.class);
     }
-    
+
+    @Override
+    @Transactional
+    public Optional<ImagenDTO> update(ImagenDTO imagenDTO, Long id) {
+        if (imagenRepository.findById(id).isPresent()) {
+            Imagen imagen = MapperUtils.EntityFromDto(imagenDTO, Imagen.class);
+            imagen = imagenRepository.save(imagen);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(imagen, ImagenDTO.class));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ImagenDTO> findById(Long id) {
+        return ServiceConvertionHelper.oneToOptionalDto(imagenRepository.findById(id), ImagenDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<ImagenDTO>> findAll() {
+        return ServiceConvertionHelper.findList(imagenRepository.findAll(), ImagenDTO.class);
+    }
 }

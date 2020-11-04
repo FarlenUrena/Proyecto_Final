@@ -10,6 +10,7 @@ package org.una.aeropuerto.dto;
  * @author farle_000
  */
 public class AreaTrabajoDTO {
+
     private Long id;
     private String nombre;
     private boolean estado;
