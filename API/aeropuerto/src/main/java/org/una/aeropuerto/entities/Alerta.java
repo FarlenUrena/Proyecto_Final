@@ -64,6 +64,18 @@ public class Alerta implements Serializable {
 
     @Column(length = 100, name = "descripcion")
     private String descripcion;
+    
+    @Column(length = 50, name = "emisor")
+    private String emisor;
+    
+    @Column(length = 50, name = "receptor")
+    private String receptor;
+    
+    @Column(length = 30, name = "asunto")
+    private String asunto;
+    
+    @Column(length = 256, name = "mensaje")
+    private String mensaje;
 
     @Column
     private boolean estado;
@@ -77,6 +89,11 @@ public class Alerta implements Serializable {
     @Setter(AccessLevel.NONE)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;
+    
+        @Column(name = "fecha_lectura", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaLectura;
 
     @PrePersist
     public void prePersist() {
