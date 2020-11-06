@@ -6,6 +6,7 @@
 package org.una.aeropuerto.controllers;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class AreaTrabajoController {
     @Autowired
     private IAreaTrabajoService areaTrabajoService;
 
+    @ApiOperation(value = "Crea una nueva área de trabajo", response = AreaTrabajoDTO.class, tags = "Áreas de trabajo")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody

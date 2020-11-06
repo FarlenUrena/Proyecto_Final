@@ -59,7 +59,8 @@ public class RolServiceImplementation implements IRolService {
     }
 
     @Override
-    public Optional<Rol> findByCodigo(String codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional(readOnly = true)
+    public Optional<RolDTO> findByCodigo(String codigo) {
+    return ServiceConvertionHelper.oneToOptionalDto(Optional.ofNullable(rolRepository.findByCodigo(codigo)), RolDTO.class);
     }
 }

@@ -23,5 +23,5 @@ public interface IRolService {
 
     public Optional<RolDTO> update(RolDTO rolDTO, Long id);
     
-    public Optional<Rol> findByCodigo(String codigo);
+    public Optional<RolDTO> findByCodigo(String codigo);
 }
