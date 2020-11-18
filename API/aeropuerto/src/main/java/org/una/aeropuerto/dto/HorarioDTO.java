@@ -22,8 +22,10 @@ import lombok.ToString;
 public class HorarioDTO {
 
     private Long id;
-    private Date diaEntrada;
-    private Date diaSalida;
-    private Long horaEntrada;
-    private Long horaSalida;
+    private String diaEntrada;
+    private String diaSalida;
+    private String horaEntrada;
+    private String horaSalida;
+    private Date fechaRegistro;
+    private Date fechaModificacion;
 }

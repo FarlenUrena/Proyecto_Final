@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,27 +47,38 @@ public class Horario implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fecha_entrada", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @Setter(AccessLevel.NONE)
-    private Date fechaEntrada;
-
-    @Column(name = "fecha_salida")
-    @Temporal(TemporalType.DATE)
-    @Setter(AccessLevel.NONE)
-    private Date fechaSalida;
-    
-    @Column(name = "hora_salida")
-    private Long HoraSalida;
+    @Column(name = "dia_entrada")
+    private String diaEntrada;
     
     @Column(name = "hora_entrada")
-    private Long HoraEntrada;
-    
-    private static final long serialVersionUID = 1L;
+    private String horaEntrada;
 
+    @Column(name = "dia_salida")
+    private String diaSalida;
+    
+    @Column(name = "hora_salida")
+    private String horaSalida;
+
+    @Column(name = "fecha_registro", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaRegistro;
+
+    @Column(name = "fecha_modificacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaModificacion;
+
+    private static final long serialVersionUID = 1L;
+    
     @PrePersist
     public void prePersist() {
-        fechaEntrada = new Date();
-        fechaSalida = new Date();
+        fechaRegistro = new Date();
+        fechaModificacion = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        fechaModificacion = new Date();
     }
 }

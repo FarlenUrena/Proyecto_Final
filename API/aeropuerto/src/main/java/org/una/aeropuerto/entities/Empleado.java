@@ -70,11 +70,11 @@ public class Empleado implements Serializable{
     @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
     
-    @Column(name = "es_jefe")
-    private boolean esJefe;
+    @Column
+    private boolean jefe;
     
-    @Column(name = "es_usuario")
-    private boolean esUsuario; 
+    @Column
+    private boolean usuario; 
     
     @ManyToOne
     @JoinColumn(name = "areasTrabajos_id")
@@ -96,8 +96,6 @@ public class Empleado implements Serializable{
     @PrePersist
     public void prePersist() {
         estado=true;
-        esJefe=false;
-        esUsuario=false;
         fechaRegistro = new Date();
         fechaModificacion = new Date();
     }
