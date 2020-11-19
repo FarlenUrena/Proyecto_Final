@@ -7,6 +7,7 @@ package org.una.aeropuerto.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,10 +17,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -55,8 +61,26 @@ public class Rol implements Serializable {
     @Column
     private boolean estado;
 
-    @PrePersist
+     @Column(name = "fecha_registro", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaRegistro;
+
+     @Column(name = "fecha_modificacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
+    private Date fechaModificacion;
+     
+     
+         @PrePersist
     public void prePersist() {
-        estado = true;
+        estado=true;
+        fechaRegistro = new Date();
+        fechaModificacion = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        fechaModificacion = new Date();
     }
 }

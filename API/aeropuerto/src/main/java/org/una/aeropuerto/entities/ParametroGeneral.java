@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +44,9 @@ public class ParametroGeneral implements Serializable {
     
     @Column(name = "nombre", length = 50)
     private String nombre;
+    
+    @Column
+    private boolean estado;
      
     @Column(name = "valor") 
     private String valor;
@@ -58,4 +63,17 @@ public class ParametroGeneral implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
+     
+     
+         @PrePersist
+    public void prePersist() {
+        estado=true;
+        fechaRegistro = new Date();
+        fechaModificacion = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        fechaModificacion = new Date();
+    }
 }

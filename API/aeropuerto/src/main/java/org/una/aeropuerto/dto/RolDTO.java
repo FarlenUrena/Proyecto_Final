@@ -5,6 +5,7 @@
  */
 package org.una.aeropuerto.dto;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,6 @@ public class RolDTO {
     private String codigo;
     private String descripcion;
     private boolean estado;
+    private Date fechaRegistro;
+    private Date fechaModificacion;
 }
